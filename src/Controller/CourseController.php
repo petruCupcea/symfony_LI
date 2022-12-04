@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Course;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,18 +11,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class CourseController extends AbstractController
 {
     #[Route('', name: 'courses.index')]
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine): Response
     {
+        $courses = $doctrine->getRepository(Course::class)->findAll();
+
         return $this->render('courses/course-list.html.twig', [
-            
+            'courses' => $courses
         ]);
     }
     
     // Look in routes.yaml
-    public function show(): Response
+    public function show(ManagerRegistry $doctrine, int $course): Response
     {
+        $courseObject = $doctrine->getRepository(Course::class)->find($course);
+        
         return $this->render('courses/course-show.html.twig', [
-            
+            'course' => $courseObject
         ]);
     }
     

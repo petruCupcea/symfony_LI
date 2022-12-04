@@ -39,6 +39,13 @@ class CourseRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAll() {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Course[] Returns an array of Course objects
 //     */

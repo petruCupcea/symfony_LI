@@ -24,18 +24,24 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>
-                    <button type="button" class="btn btn-secondary">View</button>
-                    <button type="button" class="btn btn-primary">Edit</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                </td>
-              </tr>
+
+                {% for course in courses %}
+
+                <tr>
+                    <th scope="row">{{ course.id }}</th>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.optional ? 'Yes' : 'No' }}</td>
+                    <td>{{ course.faculty.name }}</td>
+                    <td>{{ course.professor }}</td>
+                    <td>
+                        <a href="/{{ course.id }}" class="btn btn-secondary">View</a>
+                        <a href="/{{ course.id }}/edit" class="btn btn-primary">Edit</a>
+                        <a href="/{{ course.id }}/delete" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                
+                {% endfor %}
+              
             </tbody>
           </table>
     </div>

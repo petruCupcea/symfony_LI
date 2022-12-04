@@ -15,27 +15,27 @@
 
         <p class="field-row">
             <span class="fw-bold mr-2">Id:</span>
-            <span></span>
+            <span>{{ course.id }}</span>
         </p>
 
         <p class="field-row">
             <span class="fw-bold mr-2">Name:</span>
-            <span></span>
+            <span>{{ course.name }}</span>
         </p>
 
         <p class="field-row">
             <span class="fw-bold mr-2">Is Optional:</span>
-            <span></span>
+            <span>{{ course.optional ? 'Yes' : 'No'  }}</span>
         </p>
 
         <p class="field-row">
             <span class="fw-bold mr-2">Faculty:</span>
-            <span></span>
+            <span>{{ course.faculty.name }}</span>
         </p>
 
         <p class="field-row">
             <span class="fw-bold mr-2">Professor:</span>
-            <span></span>
+            <span>{{ course.professor }}</span>
         </p>
     </div>
     <!-- JavaScript Bundle with Popper -->
