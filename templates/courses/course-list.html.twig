@@ -36,7 +36,7 @@
                     <td>
                         <a href="/{{ course.id }}" class="btn btn-secondary">View</a>
                         <a href="/{{ course.id }}/edit" class="btn btn-primary">Edit</a>
-                        <form action="/{{ course.id }}/delete">
+                        <form action="/{{ course.id }}/delete" method="POST">
                           <button type="submit" class="btn btn-danger">Delete</a>
                         </form>
                     </td>

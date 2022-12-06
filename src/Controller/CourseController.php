@@ -6,9 +6,13 @@ use App\Entity\Course;
 use App\Entity\Faculty;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CourseController extends AbstractController
 {
@@ -83,7 +87,7 @@ class CourseController extends AbstractController
         ]);
     }
 
-    #[Route('/{course}/update', name: 'courses.update', methods: ['PUT'])]
+    #[Route('/{course}/update', name: 'courses.update', methods: ['POST'])]
     public function update(Request $request, int $course)
     {
         /** @var CourseRepository $courseRepository */
@@ -99,12 +103,12 @@ class CourseController extends AbstractController
             ->setOptional($data['optional'] ?? 0)
             ->setProfessor($data['professor']);
 
-        $courseRepository->save($course, true);
+        $courseRepository->save($courseObject, true);
 
         return $this->redirectToRoute('courses.index');
     }
 
-    #[Route('/{course}/delete', name: 'courses.delete', methods: ['DELETE'])]
+    #[Route('/{course}/delete', name: 'courses.delete', methods: ['POST'])]
     public function delete(int $course): Response
     {
         /** @var CourseRepository $courseRepository */
@@ -112,6 +116,7 @@ class CourseController extends AbstractController
         $courseObject = $courseRepository->find($course);
 
         $courseRepository->remove($courseObject, true);
+        
         return $this->redirectToRoute('courses.index');
     }
 }
