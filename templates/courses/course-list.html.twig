@@ -34,9 +34,10 @@
                     <td>{{ course.faculty.name }}</td>
                     <td>{{ course.professor }}</td>
                     <td>
-                        <a href="/{{ course.id }}" class="btn btn-secondary">View</a>
-                        <a href="/{{ course.id }}/edit" class="btn btn-primary">Edit</a>
                         <form action="/{{ course.id }}/delete" method="POST">
+                          <input type="hidden" name="_method" value="DELETE">
+                          <a href="/{{ course.id }}" class="btn btn-secondary">View</a>
+                          <a href="/{{ course.id }}/edit" class="btn btn-primary">Edit</a>
                           <button type="submit" class="btn btn-danger">Delete</a>
                         </form>
                     </td>
