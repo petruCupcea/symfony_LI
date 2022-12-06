@@ -3,17 +3,26 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Entity\Faculty;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CourseController extends AbstractController
 {
-    #[Route('', name: 'courses.index')]
-    public function index(ManagerRegistry $doctrine): Response
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
     {
-        $courses = $doctrine->getRepository(Course::class)->findAll();
+        $this->doctrine = $doctrine;
+    }
+
+    #[Route('', name: 'courses.index')]
+    public function index(): Response
+    {
+        $courses = $this->doctrine->getRepository(Course::class)->findAll();
 
         return $this->render('courses/course-list.html.twig', [
             'courses' => $courses
@@ -21,9 +30,9 @@ class CourseController extends AbstractController
     }
     
     // Look in routes.yaml
-    public function show(ManagerRegistry $doctrine, int $course): Response
+    public function show(int $course): Response
     {
-        $courseObject = $doctrine->getRepository(Course::class)->find($course);
+        $courseObject = $this->doctrine->getRepository(Course::class)->find($course);
         
         return $this->render('courses/course-show.html.twig', [
             'course' => $courseObject
@@ -33,15 +42,31 @@ class CourseController extends AbstractController
     #[Route('/create', name: 'courses.create')]
     public function create(): Response
     {
+        $faculties = $this->doctrine->getRepository(Faculty::class)->findAll();
+
         return $this->render('courses/course-add.html.twig', [
-            
+            'faculties' => $faculties
         ]);
     }
 
-    #[Route('/{course}/store', name: 'courses.store', methods: ['POST'])]
-    public function store()
+    #[Route('/store', name: 'courses.store', methods: ['POST'])]
+    public function store(Request $request)
     {
-        // @todo add functionality
+        $data = $request->request->all();
+
+        $faculty = $this->doctrine->getRepository(Faculty::class)->find($data['faculty_id']);
+        $course = new Course();
+        $course
+            ->setFaculty($faculty)
+            ->setName($data['name'])
+            ->setOptional($data['optional'] ?? 0)
+            ->setProfessor($data['professor']);
+            
+        /** @var CourseRepository $courseRepository */
+        $courseRepository = $this->doctrine->getRepository(Course::class);
+        $courseRepository->save($course, true);
+
+        return $this->redirectToRoute('courses.index');
     }
 
     #[Route('/{course}/edit', name: 'courses.edit')]

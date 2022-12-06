@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Course;
+use App\Entity\Faculty;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -41,6 +43,7 @@ class CourseRepository extends ServiceEntityRepository
 
     public function findAll() {
         return $this->createQueryBuilder('c')
+            ->leftJoin(Faculty::class, 'f', Join::WITH, 'c.faculty = f.id')
             ->orderBy('c.id')
             ->getQuery()
             ->getResult();

@@ -12,16 +12,16 @@
     <div class="container">
         <h2 class="m-5 text-center">Course list</h2>
         <a href="/" class="float-end btn btn-success">Go back</a>
-           <form>
+           <form method="POST" action="/store">
                 <fieldset>
                     <legend>New course info</legend>
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" id="name" class="form-control" placeholder="Course name">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Course name" required>
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="optional">
+                            <input class="form-check-input" type="checkbox" name="optional" id="optional">
                             <label class="form-check-label" for="optional">
                                 Optional
                             </label>
@@ -29,17 +29,19 @@
                     </div>
                     
                     <div class="mb3">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Faculty</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="form-select" aria-label="Faculty options" name="faculty_id" required>
+                            <option value="" selected>Please select a faculty</option>
+                            
+                            {% for faculty in faculties %}
+                            <option value="{{ faculty.id }}">{{ faculty.name }}</option>
+                            {% endfor %}
+
                         </select>
                     </div>
 
                     <div class="mb3">
                         <label for="professor" class="form-label">Professor</label>
-                        <input type="text" id="professor" class="form-control">
+                        <input type="text" id="professor" class="form-control" name="professor" required>
                     </div>
 
                     <button type="submit" class="mt-3 btn btn-primary">Submit</button>

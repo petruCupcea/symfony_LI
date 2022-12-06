@@ -39,6 +39,17 @@ class FacultyRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function findAll()
+    {
+        return $this->createQueryBuilder('f')
+            ->orderBy('f.id')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Faculty[] Returns an array of Faculty objects
 //     */
