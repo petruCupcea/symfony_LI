@@ -32,17 +32,17 @@ class CourseController extends AbstractController
             'courses' => $courses
         ]);
     }
-    
+
     // Look in routes.yaml
     public function show(int $course): Response
     {
         $courseObject = $this->doctrine->getRepository(Course::class)->find($course);
-        
+
         return $this->render('courses/course-show.html.twig', [
             'course' => $courseObject
         ]);
     }
-    
+
     #[Route('/create', name: 'courses.create')]
     public function create(): Response
     {
@@ -65,7 +65,7 @@ class CourseController extends AbstractController
             ->setName($data['name'])
             ->setOptional($data['optional'] ?? 0)
             ->setProfessor($data['professor']);
-            
+
         /** @var CourseRepository $courseRepository */
         $courseRepository = $this->doctrine->getRepository(Course::class);
         $courseRepository->save($course, true);
@@ -96,7 +96,7 @@ class CourseController extends AbstractController
         $data = $request->request->all();
 
         $faculty = $this->doctrine->getRepository(Faculty::class)->find($data['faculty_id']);
-        
+
         $courseObject
             ->setFaculty($faculty)
             ->setName($data['name'])
@@ -116,7 +116,7 @@ class CourseController extends AbstractController
         $courseObject = $courseRepository->find($course);
 
         $courseRepository->remove($courseObject, true);
-        
+
         return $this->redirectToRoute('courses.index');
     }
 }

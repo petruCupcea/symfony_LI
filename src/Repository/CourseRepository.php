@@ -41,7 +41,8 @@ class CourseRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAll() {
+    public function findAll()
+    {
         return $this->createQueryBuilder('c')
             ->leftJoin(Faculty::class, 'f', Join::WITH, 'c.faculty = f.id')
             ->orderBy('c.id')
@@ -49,7 +50,8 @@ class CourseRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findById(int $id) {
+    public function findById(int $id)
+    {
         return $this->createQueryBuilder('c')
             ->leftJoin(Faculty::class, 'f', Join::WITH, 'c.faculty = f.id')
             ->where('c.id = :id')
